@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Automation Studio</title>
+    <style>
+        :root {
+            --bg-app: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --accent: #4f46e5;
+            --accent-light: #eeebff;
+            --success-bg: #dcfce7;
+            --success-txt: #15803d;
+            --process-bg: #fef9c3;
+            --process-txt: #a16207;
+            --pending-bg: #f1f5f9;
+            --pending-txt: #475569;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-app);
+            color: var(--text-main);
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        header {
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .brand h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.25rem;
+        }
+
+        .brand p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .global-stats {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            background: var(--accent-light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.01);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-main);
+        }
+
+        .card-progress {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .task-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .task-item:hover {
+            border-color: var(--text-muted);
+        }
+
+        .task-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-main);
+            max-width: 75%;
+        }
+
+        .select-custom {
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            transition: background 0.2s ease;
+        }
+
+        /* Estilos dinámicos para los estados basados en selectores de clase */
+        .status-pendiente { background-color: var(--pending-bg); color: var(--pending-txt); }
+        .status-proceso { background-color: var(--process-bg); color: var(--process-txt); }
+        .status-completado { background-color: var(--success-bg); color: var(--success-txt); }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <header>
+        <div class="brand">
+            <h1>⚡ EVENT AUTOMATION STUDIO</h1>
+            <p>Panel de Control de Lanzamiento e Infraestructura GHL</p>
+        </div>
+        <div class="global-stats" id="global-counter">Progreso Global: 0%</div>
+    </header>
+
+    <main class="grid-layout">
+        <section class="card" data-module="1">
+            <div class="card-header">
+                <h2 class="card-title">1. Creación de Plantillas</h2>
+                <span class="card-progress" id="progress-1">0%</span>
+            </div>
+            <ul class="task-list" id="list-1"></ul>
+        </section>
+
+        <section class="card" data-module="2">
+            <div class="card-header">
+                <h2 class="card-title">2. Verificación de Datos</h2>
+                <span class="card-progress" id="progress-2">0%</span>
+            </div>
+            <ul class="task-list" id="list-2"></ul>
+        </section>
+
+        <section class="card" data-module="3">
+            <div class="card-header">
+                <h2 class="card-title">3. Verificación de Time Out (GHL)</h2>
+                <span class="card-progress" id="progress-3">0%</span>
+            </div>
+            <ul class="task-list" id="list-3"></ul>
+        </section>
+
+        <section class="card" data-module="4">
+            <div class="card-header">
+                <h2 class="card-title">4. Verificación de Horarios (GHL)</h2>
+                <span class="card-progress" id="progress-4">0%</span>
+            </div>
+            <ul class="task-list" id="list-4"></ul>
+        </section>
+    </main>
+</div>
+
+<script>
+    // Estructuras de datos puras sin descripciones agregadas
+    const modulesData = {
+        1: [
+            "Invitación 1 con imagen",
+            "Invitación 2 con video",
+            "Recordatorio faltando 5 dias con video",
+            "Recordatorio faltando 3 días",
+            "Recordatorios faltando dos dias",
+            "Recordatorio faltando 1 dia",
+            "Recordatorio de ES HOY",
+            "Plantilla post evento"
+        ],
+        2: ["Verificación de datos de las plantillas"],
+        3: ["Verificación de time out de acciones en Go High Level"],
+        4: ["Verificación de horarios de salida de recordatorios en Go High Level"]
+    };
+
+    // Inicializar la aplicación y renderizar componentes
+    function initApp() {
+        Object.keys(modulesData).forEach(moduleId => {
+            const listContainer = document.getElementById(`list-${moduleId}`);
+            modulesData[moduleId].forEach((taskName, index) => {
+                const li = document.createElement('li');
+                li.className = 'task-item';
+                li.innerHTML = `
+                    <span class="task-name">${taskName}</span>
+                    <select class="select-custom status-pendiente" onchange="updateStatus(this, ${moduleId})">
+                        <option value="pendiente">📑 Pendiente</option>
+                        <option value="proceso">⏳ En Proceso</option>
+                        <option value="completado">✅ Completado</option>
+                    </select>
+                `;
+                listContainer.appendChild(li);
+            });
+        });
+        calculateMetrics();
+    }
+
+    // Manejar el cambio de estado visual y el recálculo
+    function updateStatus(selectElement, moduleId) {
+        const val = selectElement.value;
+        selectElement.className = 'select-custom'; // Reset clases
+        
+        if (val === 'pendiente') selectElement.classList.add('status-pendiente');
+        if (val === 'proceso') selectElement.classList.add('status-proceso');
+        if (val === 'completado') selectElement.classList.add('status-completado');
+
+        calculateMetrics();
+    }
+
+    // Calcular porcentajes por módulo y global de forma estricta
+    function calculateMetrics() {
+        let totalTasksGlobal = 0;
+        let completedTasksGlobal = 0;
+
+        Object.keys(modulesData).forEach(moduleId => {
+            const card = document.querySelector(`[data-module="${moduleId}"]`);
+            const selects = card.querySelectorAll('.select-custom');
+            
+            let totalModule = selects.length;
+            let completedModule = 0;
+
+            selects.forEach(select => {
+                if (select.value === 'completado') {
+                    completedModule++;
+                    completedTasksGlobal++;
+                }
+            });
+
+            totalTasksGlobal += totalModule;
+
+            // Renderizar porcentaje por bloque
+            const pctModule = totalModule > 0 ? Math.round((completedModule / totalModule) * 100) : 0;
+            document.getElementById(`progress-${moduleId}`).innerText = `${pctModule}%`;
+        });
+
+        // Renderizar porcentaje global de la aplicación
+        const pctGlobal = totalTasksGlobal > 0 ? Math.round((completedTasksGlobal / totalTasksGlobal) * 100) : 0;
+        document.getElementById('global-counter').innerText = `Progreso Global: ${pctGlobal}%`;
+    }
+
+    // Lanzar al cargar el documento
+    window.onload = initApp;
+</script>
+</body>
+</html>
