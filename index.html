@@ -19,6 +19,8 @@
             --process-txt: #a16207;
             --pending-bg: #f1f5f9;
             --pending-txt: #475569;
+            --type-bg: #f8fafc;
+            --type-border: #cbd5e1;
         }
 
         * {
@@ -39,27 +41,94 @@
         .app-container {
             width: 100%;
             max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2.5rem;
+        }
+
+        @media (max-width: 1024px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
         }
 
         header {
-            margin-bottom: 2.5rem;
+            grid-column: 1 / -1;
+            margin-bottom: 1rem;
             border-bottom: 1px solid var(--border);
             padding-bottom: 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
+            gap: 1.5rem;
+            flex-wrap: wrap;
         }
 
-        .brand h1 {
-            font-size: 1.5rem;
+        .title-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .editable-title {
+            font-size: 1.6rem;
             font-weight: 700;
             letter-spacing: -0.02em;
-            margin-bottom: 0.25rem;
+            color: var(--text-main);
+            border: 1px dashed transparent;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: max-content;
+            max-width: 100%;
         }
 
-        .brand p {
+        .editable-title:hover {
+            border-color: var(--text-muted);
+            background: #fff;
+        }
+
+        .editable-title:focus {
+            border-color: var(--accent);
+            background: #fff;
+            outline: none;
+            cursor: text;
+        }
+
+        .description-textarea {
+            width: 100%;
+            max-width: 700px;
+            min-height: 60px;
+            border: 1px solid transparent;
+            background: transparent;
             color: var(--text-muted);
             font-size: 0.9rem;
+            padding: 0.5rem;
+            resize: vertical;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            line-height: 1.4;
+        }
+
+        .description-textarea:hover {
+            border-color: var(--border);
+            background: #fff;
+        }
+
+        .description-textarea:focus {
+            border-color: var(--type-border);
+            background: #fff;
+            color: var(--text-main);
+            outline: none;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
         .global-stats {
@@ -69,6 +138,23 @@
             background: var(--accent-light);
             padding: 0.5rem 1rem;
             border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        .btn-archive {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        .btn-archive:hover {
+            opacity: 0.9;
         }
 
         .grid-layout {
@@ -101,7 +187,7 @@
         }
 
         .card-title {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
@@ -128,18 +214,20 @@
             padding: 0.75rem 1rem;
             border: 1px solid var(--border);
             border-radius: 8px;
-            transition: all 0.2s ease;
-        }
-
-        .task-item:hover {
-            border-color: var(--text-muted);
+            gap: 1rem;
         }
 
         .task-name {
             font-size: 0.9rem;
             font-weight: 500;
             color: var(--text-main);
-            max-width: 75%;
+            flex: 1;
+        }
+
+        .controls-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .select-custom {
@@ -150,27 +238,103 @@
             border: none;
             cursor: pointer;
             outline: none;
-            transition: background 0.2s ease;
         }
 
-        /* Estilos dinámicos para los estados basados en selectores de clase */
+        .select-type {
+            background-color: var(--type-bg);
+            border: 1px solid var(--type-border);
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
         .status-pendiente { background-color: var(--pending-bg); color: var(--pending-txt); }
         .status-proceso { background-color: var(--process-bg); color: var(--process-txt); }
         .status-completado { background-color: var(--success-bg); color: var(--success-txt); }
+
+        /* PANEL HISTORIAL MINIMALISTA */
+        .history-sidebar {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            align-self: start;
+        }
+
+        .history-sidebar h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .history-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            max-height: 540px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            padding: 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            background: var(--bg-app);
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .history-item-title {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .history-item-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            white-space: pre-line;
+            border-left: 2px solid var(--border);
+            padding-left: 0.5rem;
+            margin: 0.2rem 0;
+        }
+
+        .history-item-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.2rem;
+        }
+
+        .empty-history {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
 
 <div class="app-container">
     <header>
-        <div class="brand">
-            <h1>⚡ EVENT AUTOMATION STUDIO</h1>
-            <p>Panel de Control de Lanzamiento e Infraestructura GHL</p>
+        <div class="title-area">
+            <h1 class="editable-title" id="main-title" contenteditable="true" spellcheck="false">Panel de Control de Lanzamiento</h1>
+            <textarea class="description-textarea" id="main-description" placeholder="Añade aquí notas, objetivos o la descripción detallada de la infraestructura de este lanzamiento..."></textarea>
         </div>
-        <div class="global-stats" id="global-counter">Progreso Global: 0%</div>
+        <div class="header-actions">
+            <button class="btn-archive" onclick="archiveCurrentLaunch()">Archivar Lanzamiento</button>
+            <div class="global-stats" id="global-counter">Progreso Global: 0%</div>
+        </div>
     </header>
 
     <main class="grid-layout">
+        <!-- MÓDULO 1 -->
         <section class="card" data-module="1">
             <div class="card-header">
                 <h2 class="card-title">1. Creación de Plantillas</h2>
@@ -179,6 +343,7 @@
             <ul class="task-list" id="list-1"></ul>
         </section>
 
+        <!-- MÓDULO 2 -->
         <section class="card" data-module="2">
             <div class="card-header">
                 <h2 class="card-title">2. Verificación de Datos</h2>
@@ -187,6 +352,7 @@
             <ul class="task-list" id="list-2"></ul>
         </section>
 
+        <!-- MÓDULO 3 -->
         <section class="card" data-module="3">
             <div class="card-header">
                 <h2 class="card-title">3. Verificación de Time Out (GHL)</h2>
@@ -195,6 +361,7 @@
             <ul class="task-list" id="list-3"></ul>
         </section>
 
+        <!-- MÓDULO 4 -->
         <section class="card" data-module="4">
             <div class="card-header">
                 <h2 class="card-title">4. Verificación de Horarios (GHL)</h2>
@@ -203,14 +370,22 @@
             <ul class="task-list" id="list-4"></ul>
         </section>
     </main>
+
+    <!-- SIDEBAR DE ARCHIVADOS -->
+    <aside class="history-sidebar">
+        <h3>Historial Estructurado</h3>
+        <ul class="history-list" id="history-container">
+            <li class="empty-history">No hay lanzamientos archivados.</li>
+        </ul>
+    </aside>
 </div>
 
 <script>
-    // Estructuras de datos puras sin descripciones agregadas
     const modulesData = {
         1: [
             "Invitación 1 con imagen",
             "Invitación 2 con video",
+            "Recordatorio faltando 10 días",
             "Recordatorio faltando 5 dias con video",
             "Recordatorio faltando 3 días",
             "Recordatorios faltando dos dias",
@@ -223,48 +398,62 @@
         4: ["Verificación de horarios de salida de recordatorios en Go High Level"]
     };
 
-    // Inicializar la aplicación y renderizar componentes
     function initApp() {
         Object.keys(modulesData).forEach(moduleId => {
             const listContainer = document.getElementById(`list-${moduleId}`);
+            listContainer.innerHTML = ''; 
             modulesData[moduleId].forEach((taskName, index) => {
                 const li = document.createElement('li');
                 li.className = 'task-item';
                 li.innerHTML = `
                     <span class="task-name">${taskName}</span>
-                    <select class="select-custom status-pendiente" onchange="updateStatus(this, ${moduleId})">
-                        <option value="pendiente">📑 Pendiente</option>
-                        <option value="proceso">⏳ En Proceso</option>
-                        <option value="completado">✅ Completado</option>
-                    </select>
+                    <div class="controls-group">
+                        <select class="select-custom select-type" data-index="${index}" onchange="saveCurrentState();">
+                            <option value="texto">📝 Texto</option>
+                            <option value="video">🎬 Video</option>
+                            <option value="imagen">🖼️ Imagen</option>
+                        </select>
+                        <select class="select-custom status-pendiente" data-index="${index}" onchange="updateStatusStyle(this); calculateMetrics(); saveCurrentState();">
+                            <option value="pendiente">📑 Pendiente</option>
+                            <option value="proceso">⏳ En Proceso</option>
+                            <option value="completado">✅ Completado</option>
+                        </select>
+                    </div>
                 `;
                 listContainer.appendChild(li);
             });
         });
-        calculateMetrics();
+
+        loadState();
+        loadHistory();
+        
+        // Listeners automáticos para guardar texto sin botones molestos
+        const titleEl = document.getElementById('main-title');
+        titleEl.addEventListener('blur', () => {
+            if(!titleEl.innerText.trim()) titleEl.innerText = "Panel de Control de Lanzamiento";
+            saveCurrentState();
+        });
+        titleEl.addEventListener('keydown', (e) => { if(e.key === 'Enter') { e.preventDefault(); titleEl.blur(); } });
+
+        const descEl = document.getElementById('main-description');
+        descEl.addEventListener('input', saveCurrentState);
     }
 
-    // Manejar el cambio de estado visual y el recálculo
-    function updateStatus(selectElement, moduleId) {
+    function updateStatusStyle(selectElement) {
         const val = selectElement.value;
-        selectElement.className = 'select-custom'; // Reset clases
-        
+        selectElement.className = 'select-custom';
         if (val === 'pendiente') selectElement.classList.add('status-pendiente');
         if (val === 'proceso') selectElement.classList.add('status-proceso');
         if (val === 'completado') selectElement.classList.add('status-completado');
-
-        calculateMetrics();
     }
 
-    // Calcular porcentajes por módulo y global de forma estricta
     function calculateMetrics() {
         let totalTasksGlobal = 0;
         let completedTasksGlobal = 0;
 
         Object.keys(modulesData).forEach(moduleId => {
             const card = document.querySelector(`[data-module="${moduleId}"]`);
-            const selects = card.querySelectorAll('.select-custom');
-            
+            const selects = card.querySelectorAll('.status-pendiente, .status-proceso, .status-completado');
             let totalModule = selects.length;
             let completedModule = 0;
 
@@ -276,18 +465,119 @@
             });
 
             totalTasksGlobal += totalModule;
-
-            // Renderizar porcentaje por bloque
             const pctModule = totalModule > 0 ? Math.round((completedModule / totalModule) * 100) : 0;
             document.getElementById(`progress-${moduleId}`).innerText = `${pctModule}%`;
         });
 
-        // Renderizar porcentaje global de la aplicación
         const pctGlobal = totalTasksGlobal > 0 ? Math.round((completedTasksGlobal / totalTasksGlobal) * 100) : 0;
         document.getElementById('global-counter').innerText = `Progreso Global: ${pctGlobal}%`;
     }
 
-    // Lanzar al cargar el documento
+    function saveCurrentState() {
+        const currentState = {
+            title: document.getElementById('main-title').innerText,
+            description: document.getElementById('main-description').value,
+            modules: {},
+            types: {}
+        };
+        Object.keys(modulesData).forEach(moduleId => {
+            currentState.modules[moduleId] = [];
+            currentState.types[moduleId] = [];
+            
+            const statusSelects = document.querySelectorAll(`#list-${moduleId} .controls-group select:nth-child(2)`);
+            const typeSelects = document.querySelectorAll(`#list-${moduleId} .select-type`);
+            
+            statusSelects.forEach(sel => currentState.modules[moduleId].push(sel.value));
+            typeSelects.forEach(sel => currentState.types[moduleId].push(sel.value));
+        });
+        localStorage.setItem('ghl_current_checklist_v4', JSON.stringify(currentState));
+    }
+
+    function loadState() {
+        const saved = localStorage.getItem('ghl_current_checklist_v4');
+        if (!saved) { calculateMetrics(); return; }
+        const data = JSON.parse(saved);
+        
+        if(data.title) document.getElementById('main-title').innerText = data.title;
+        if(data.description) document.getElementById('main-description').value = data.description;
+        
+        Object.keys(modulesData).forEach(moduleId => {
+            const statusSelects = document.querySelectorAll(`#list-${moduleId} .controls-group select:nth-child(2)`);
+            const typeSelects = document.querySelectorAll(`#list-${moduleId} .select-type`);
+            
+            statusSelects.forEach((sel, idx) => {
+                if(data.modules && data.modules[moduleId] && data.modules[moduleId][idx]) {
+                    sel.value = data.modules[moduleId][idx];
+                    updateStatusStyle(sel);
+                }
+            });
+            
+            typeSelects.forEach((sel, idx) => {
+                if(data.types && data.types[moduleId] && data.types[moduleId][idx]) {
+                    sel.value = data.types[moduleId][idx];
+                }
+            });
+        });
+        calculateMetrics();
+    }
+
+    function archiveCurrentLaunch() {
+        const title = document.getElementById('main-title').innerText.trim();
+        const description = document.getElementById('main-description').value.trim();
+        const globalProgress = document.getElementById('global-counter').innerText;
+        
+        if (confirm(`¿Estás seguro de que deseas archivar "${title}" y comenzar un nuevo checklist limpio?`)) {
+            const history = JSON.parse(localStorage.getItem('ghl_history_checklists_v4') || '[]');
+            
+            history.unshift({
+                title: title,
+                description: description || "Sin descripción adicional.",
+                progress: globalProgress,
+                date: new Date().toLocaleDateString('es-ES', {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute:'2-digit'})
+            });
+            
+            localStorage.setItem('ghl_history_checklists_v4', JSON.stringify(history));
+            
+            // Reestablecer campos para el nuevo inicio
+            document.getElementById('main-title').innerText = "Nuevo Lanzamiento";
+            document.getElementById('main-description').value = "";
+            
+            const statusSelects = document.querySelectorAll('.controls-group select:nth-child(2)');
+            statusSelects.forEach(sel => {
+                sel.value = 'pendiente';
+                updateStatusStyle(sel);
+            });
+            
+            const typeSelects = document.querySelectorAll('.select-type');
+            typeSelects.forEach(sel => sel.value = 'texto');
+            
+            saveCurrentState();
+            calculateMetrics();
+            loadHistory();
+        }
+    }
+
+    function loadHistory() {
+        const container = document.getElementById('history-container');
+        const history = JSON.parse(localStorage.getItem('ghl_history_checklists_v4') || '[]');
+        
+        if(history.length === 0) {
+            container.innerHTML = '<li class="empty-history">No hay lanzamientos archivados.</li>';
+            return;
+        }
+        
+        container.innerHTML = history.map(item => `
+            <li class="history-item">
+                <span class="history-item-title">${item.title}</span>
+                <p class="history-item-desc">${item.description}</p>
+                <div class="history-item-meta">
+                    <span>${item.progress}</span>
+                    <span>${item.date}</span>
+                </div>
+            </li>
+        `).join('');
+    }
+
     window.onload = initApp;
 </script>
 </body>
