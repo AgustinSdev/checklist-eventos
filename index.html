@@ -6,7 +6,7 @@
     <title>Event Automation Studio</title>
     <style>
         :root {
-            --bg-app: #f8fafc;
+            --bg-app: #f1f5f9;
             --bg-card: #ffffff;
             --text-main: #0f172a;
             --text-muted: #64748b;
@@ -17,9 +17,9 @@
             --success-txt: #15803d;
             --process-bg: #fef9c3;
             --process-txt: #a16207;
-            --pending-bg: #f1f5f9;
+            --pending-bg: #f8fafc;
             --pending-txt: #475569;
-            --type-bg: #f8fafc;
+            --type-bg: #ffffff;
             --type-border: #cbd5e1;
         }
 
@@ -33,12 +33,11 @@
         body {
             background-color: var(--bg-app);
             color: var(--text-main);
-            padding: 1.5rem;
+            padding: 2rem;
             display: flex;
             justify-content: center;
         }
 
-        /* Contenedor fluido que aprovecha todo el ancho de la pantalla en PC */
         .app-container {
             width: 100%;
             max-width: 100%;
@@ -47,7 +46,7 @@
             gap: 2rem;
         }
 
-        @media (max-width: 1200px) {
+        @media (max-width: 1300px) {
             .app-container {
                 grid-template-columns: 1fr;
             }
@@ -55,9 +54,10 @@
 
         header {
             grid-column: 1 / -1;
-            margin-bottom: 0.5rem;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -65,47 +65,32 @@
             flex-wrap: wrap;
         }
 
-        .title-area {
-            flex: 1;
-        }
-
-        .editable-title {
-            font-size: 1.6rem;
+        .title-area h1 {
+            font-size: 1.5rem;
             font-weight: 700;
             letter-spacing: -0.02em;
             color: var(--text-main);
             border: 1px dashed transparent;
-            padding: 0.2rem 0.5rem;
+            padding: 0.2rem 0.4rem;
             border-radius: 6px;
             display: inline-block;
             cursor: pointer;
-            transition: all 0.2s ease;
         }
 
-        .editable-title:hover {
-            border-color: var(--text-muted);
-            background: #fff;
-        }
+        .title-area h1:hover { border-color: var(--text-muted); background: var(--bg-app); }
+        .title-area h1:focus { border-color: var(--accent); background: #fff; outline: none; }
 
-        .editable-title:focus {
-            border-color: var(--accent);
-            background: #fff;
-            outline: none;
-            cursor: text;
-        }
-
-        .brand p {
+        .title-area p {
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-top: 0.2rem;
-            padding-left: 0.5rem;
+            padding-left: 0.4rem;
         }
 
         .header-actions {
             display: flex;
             align-items: center;
             gap: 1rem;
-            flex-wrap: wrap;
         }
 
         .global-stats {
@@ -115,7 +100,6 @@
             background: var(--accent-light);
             padding: 0.6rem 1.2rem;
             border-radius: 20px;
-            white-space: nowrap;
         }
 
         .btn-archive {
@@ -125,27 +109,22 @@
             padding: 0.6rem 1.4rem;
             font-size: 0.85rem;
             font-weight: 600;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: opacity 0.2s ease;
-            white-space: nowrap;
+            transition: background 0.2s;
         }
 
-        .btn-archive:hover {
-            opacity: 0.9;
-        }
+        .btn-archive:hover { background: #4338ca; }
 
-        /* Grid de contenido principal ocupando el máximo espacio */
         .grid-layout {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
             gap: 2rem;
+            align-start: start;
         }
 
-        @media (max-width: 600px) {
-            .grid-layout {
-                grid-template-columns: 1fr;
-            }
+        @media (max-width: 680px) {
+            .grid-layout { grid-template-columns: 1fr; }
         }
 
         .card {
@@ -153,28 +132,30 @@
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.01);
             display: flex;
             flex-direction: column;
+            height: fit-content;
         }
 
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
         }
 
         .card-title {
-            font-size: 0.95rem;
-            font-weight: 600;
+            font-size: 0.85rem;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: var(--text-main);
+            color: var(--text-muted);
         }
 
         .card-progress {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--accent);
         }
@@ -186,61 +167,65 @@
             gap: 0.75rem;
         }
 
-        /* Fila del item adaptativa */
+        /* Estructura de fila ultra optimizada */
         .task-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0.75rem 1rem;
+            padding: 0.6rem 0.8rem;
             border: 1px solid var(--border);
             border-radius: 8px;
+            background: #ffffff;
             gap: 1rem;
-            flex-wrap: nowrap;
         }
 
+        /* Ancho fijo para proteger el nombre del activo */
         .task-name {
             font-size: 0.9rem;
-            font-weight: 500;
+            font-weight: 600;
             color: var(--text-main);
-            min-width: 180px;
+            width: 190px;
             flex-shrink: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        /* Contenedor interno de controles */
-        .controls-group {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            flex: 1;
-            justify-content: flex-end;
-            width: 100%;
-        }
-
+        /* La descripción toma de forma fluida todo el espacio sobrante en PC */
         .input-desc {
             flex: 1;
-            min-width: 120px;
             font-size: 0.85rem;
-            padding: 0.4rem 0.6rem;
+            padding: 0.45rem 0.75rem;
             border: 1px solid var(--border);
             border-radius: 6px;
             color: var(--text-main);
             outline: none;
-            transition: border-color 0.2s;
+            background: var(--pending-bg);
+            transition: all 0.2s;
         }
 
         .input-desc:focus {
             border-color: var(--accent);
+            background: #ffffff;
+        }
+
+        /* Bloque contenedor de selectores con ancho protegido para evitar rupturas */
+        .selectors-block {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
         }
 
         .select-custom {
             font-size: 0.8rem;
             font-weight: 600;
-            padding: 0.4rem 0.8rem;
+            padding: 0 0.5rem;
             border-radius: 6px;
             border: none;
             cursor: pointer;
             outline: none;
-            height: 32px;
+            height: 34px;
         }
 
         .select-type {
@@ -248,56 +233,62 @@
             border: 1px solid var(--type-border);
             color: var(--text-main);
             font-weight: 500;
+            width: 95px;
         }
 
-        .status-pendiente { background-color: var(--pending-bg); color: var(--pending-txt); }
+        .select-status {
+            width: 125px;
+        }
+
+        .status-pendiente { background-color: var(--pending-bg); color: var(--pending-txt); border: 1px solid var(--border); }
         .status-proceso { background-color: var(--process-bg); color: var(--process-txt); }
         .status-completado { background-color: var(--success-bg); color: var(--success-txt); }
 
-        /* RESPONSIVE APP STYLE (MOBILE EXCLUSIVO) */
+        /* RESPONSIVO MÓVIL ESTILO APP NATIVA */
         @media (max-width: 768px) {
+            body { padding: 1rem; }
             .task-item {
                 flex-direction: column;
-                align-items: flex-start;
-                gap: 0.75rem;
-                padding: 1rem;
+                align-items: stretch;
+                gap: 0.6rem;
+                padding: 0.8rem;
             }
             .task-name {
-                min-width: 100%;
-                font-size: 0.95rem;
-            }
-            .controls-group {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 0.5rem;
+                width: 100%;
+                white-space: normal;
             }
             .input-desc {
                 width: 100%;
             }
-            .mobile-selectors {
+            .selectors-block {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
                 gap: 0.5rem;
+                width: 100%;
+            }
+            .select-type, .select-status {
+                width: 100%;
             }
         }
 
-        /* PANEL HISTORIAL INTERFAZ */
+        /* BARRA LATERAL HISTORIAL */
         .history-sidebar {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 1.5rem;
-            align-self: start;
+            height: fit-content;
         }
 
         .history-sidebar h3 {
-            font-size: 0.95rem;
-            font-weight: 600;
+            font-size: 0.85rem;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             margin-bottom: 1rem;
             padding-bottom: 0.5rem;
             border-bottom: 1px solid var(--border);
+            color: var(--text-muted);
         }
 
         .history-list {
@@ -312,32 +303,23 @@
         .history-item {
             padding: 0.8rem;
             border: 1px solid var(--border);
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 0.85rem;
-            background: var(--bg-app);
+            background: var(--pending-bg);
             display: flex;
             flex-direction: column;
-            gap: 0.4rem;
+            gap: 0.3rem;
         }
 
-        .history-item-title {
-            font-weight: 600;
-            color: var(--text-main);
-        }
-
+        .history-item-title { font-weight: 600; color: var(--text-main); }
         .history-item-meta {
             font-size: 0.75rem;
             color: var(--text-muted);
             display: flex;
             justify-content: space-between;
-            margin-top: 0.2rem;
         }
 
-        .empty-history {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            font-style: italic;
-        }
+        .empty-history { font-size: 0.85rem; color: var(--text-muted); font-style: italic; }
     </style>
 </head>
 <body>
@@ -345,10 +327,8 @@
 <div class="app-container">
     <header>
         <div class="title-area">
-            <div class="brand">
-                <h1 class="editable-title" id="main-title" contenteditable="true" spellcheck="false">Panel de Control de Lanzamiento</h1>
-                <p>Auditoría en tiempo real de activos, ventanas de entrega y timeouts en GoHighLevel</p>
-            </div>
+            <h1 id="main-title" contenteditable="true" spellcheck="false">Panel de Control de Lanzamiento</h1>
+            <p>Auditoría en tiempo real de activos, ventanas de entrega y timeouts en GoHighLevel</p>
         </div>
         <div class="header-actions">
             <button class="btn-archive" onclick="archiveCurrentLaunch()">Archivar Lanzamiento</button>
@@ -359,7 +339,7 @@
     <main class="grid-layout">
         <section class="card" data-module="1">
             <div class="card-header">
-                <h2 class="card-title">1. Creación de Plantillas</h2>
+                <h2 class="card-title">1. Componentes y Plantillas</h2>
                 <span class="card-progress" id="progress-1">0%</span>
             </div>
             <ul class="task-list" id="list-1"></ul>
@@ -367,7 +347,7 @@
 
         <section class="card" data-module="2">
             <div class="card-header">
-                <h2 class="card-title">2. Verificación de Datos</h2>
+                <h2 class="card-title">2. Control de Calidad (QA)</h2>
                 <span class="card-progress" id="progress-2">0%</span>
             </div>
             <ul class="task-list" id="list-2"></ul>
@@ -375,7 +355,7 @@
 
         <section class="card" data-module="3">
             <div class="card-header">
-                <h2 class="card-title">3. Verificación de Time Out (GHL)</h2>
+                <h2 class="card-title">3. Infraestructura GHL (Timeouts)</h2>
                 <span class="card-progress" id="progress-3">0%</span>
             </div>
             <ul class="task-list" id="list-3"></ul>
@@ -383,7 +363,7 @@
 
         <section class="card" data-module="4">
             <div class="card-header">
-                <h2 class="card-title">4. Verificación de Horarios (GHL)</h2>
+                <h2 class="card-title">4. Control de Horarios GHL</h2>
                 <span class="card-progress" id="progress-4">0%</span>
             </div>
             <ul class="task-list" id="list-4"></ul>
@@ -399,21 +379,32 @@
 </div>
 
 <script>
+    // Base de datos estandarizada con la nomenclatura limpia solicitada
     const modulesData = {
         1: [
-            "Invitación 1 con imagen",
-            "Invitación 2 con video",
-            "Recordatorio faltando 10 días",
-            "Recordatorio faltando 5 dias con video",
-            "Recordatorio faltando 3 días",
-            "Recordatorios faltando dos dias",
-            "Recordatorio faltando 1 dia",
-            "Recordatorio de ES HOY",
-            "Plantilla post evento"
+            "Invitación 1",
+            "Invitación 2",
+            "Recordatorio 10 días",
+            "Recordatorio 5 días",
+            "Recordatorio 3 días",
+            "Recordatorio 2 días",
+            "Recordatorio 1 día",
+            "Recordatorio ¡Es Hoy!",
+            "Plantilla Post-Evento"
         ],
-        2: ["Verificación de datos de las plantillas"],
-        3: ["Verificación de time out de acciones en Go High Level"],
-        4: ["Verificación de horarios de salida de recordatorios en Go High Level"]
+        2: [
+            "Ortografía y Redacción",
+            "Validación de CTAs y Links",
+            "Variables Dinámicas GHL"
+        ],
+        3: [
+            "Lógica de Espera (Wait Steps)",
+            "Condiciones de Salida"
+        ],
+        4: [
+            "Ventanas de Ejecución",
+            "Sincronización de Timezone"
+        ]
     };
 
     function initApp() {
@@ -424,23 +415,20 @@
                 const li = document.createElement('li');
                 li.className = 'task-item';
                 
-                // Estructura adaptativa con wrapper mobile-selectors para no romper el grid
                 li.innerHTML = `
-                    <span class="task-name">${taskName}</span>
-                    <div class="controls-group">
-                        <input type="text" class="input-desc" placeholder="Añadir descripción..." data-index="${index}" oninput="saveCurrentState();">
-                        <div class="mobile-selectors">
-                            <select class="select-custom select-type" data-index="${index}" onchange="saveCurrentState();">
-                                <option value="texto">📝 Texto</option>
-                                <option value="video">🎬 Video</option>
-                                <option value="imagen">🖼️ Imagen</option>
-                            </select>
-                            <select class="select-custom status-pendiente" data-index="${index}" onchange="updateStatusStyle(this); calculateMetrics(); saveCurrentState();">
-                                <option value="pendiente">📑 Pendiente</option>
-                                <option value="proceso">⏳ En Proceso</option>
-                                <option value="completado">✅ Completado</option>
-                            </select>
-                        </div>
+                    <span class="task-name" title="${taskName}">${taskName}</span>
+                    <input type="text" class="input-desc" placeholder="Añadir especificación..." data-index="${index}" oninput="saveCurrentState();">
+                    <div class="selectors-block">
+                        <select class="select-custom select-type" data-index="${index}" onchange="saveCurrentState();">
+                            <option value="texto">📝 Texto</option>
+                            <option value="video">🎬 Video</option>
+                            <option value="imagen">🖼️ Imagen</option>
+                        </select>
+                        <select class="select-custom select-status status-pendiente" data-index="${index}" onchange="updateStatusStyle(this); calculateMetrics(); saveCurrentState();">
+                            <option value="pendiente">📑 Pendiente</option>
+                            <option value="proceso">⏳ En Proceso</option>
+                            <option value="completado">✅ Completado</option>
+                        </select>
                     </div>
                 `;
                 listContainer.appendChild(li);
@@ -460,7 +448,7 @@
 
     function updateStatusStyle(selectElement) {
         const val = selectElement.value;
-        selectElement.className = 'select-custom';
+        selectElement.className = 'select-custom select-status';
         if (val === 'pendiente') selectElement.classList.add('status-pendiente');
         if (val === 'proceso') selectElement.classList.add('status-proceso');
         if (val === 'completado') selectElement.classList.add('status-completado');
@@ -472,7 +460,7 @@
 
         Object.keys(modulesData).forEach(moduleId => {
             const card = document.querySelector(`[data-module="${moduleId}"]`);
-            const selects = card.querySelectorAll('.status-pendiente, .status-proceso, .status-completado');
+            const selects = card.querySelectorAll('.select-status');
             let totalModule = selects.length;
             let completedModule = 0;
 
@@ -504,7 +492,7 @@
             currentState.types[moduleId] = [];
             currentState.descriptions[moduleId] = [];
             
-            const statusSelects = document.querySelectorAll(`#list-${moduleId} .mobile-selectors select:nth-child(2)`);
+            const statusSelects = document.querySelectorAll(`#list-${moduleId} .select-status`);
             const typeSelects = document.querySelectorAll(`#list-${moduleId} .select-type`);
             const descInputs = document.querySelectorAll(`#list-${moduleId} .input-desc`);
             
@@ -512,17 +500,17 @@
             typeSelects.forEach(sel => currentState.types[moduleId].push(sel.value));
             descInputs.forEach(input => currentState.descriptions[moduleId].push(input.value));
         });
-        localStorage.setItem('ghl_current_checklist_v5', JSON.stringify(currentState));
+        localStorage.setItem('ghl_current_checklist_v6', JSON.stringify(currentState));
     }
 
     function loadState() {
-        const saved = localStorage.getItem('ghl_current_checklist_v5');
+        const saved = localStorage.getItem('ghl_current_checklist_v6');
         if (!saved) { calculateMetrics(); return; }
         const data = JSON.parse(saved);
         if(data.title) document.getElementById('main-title').innerText = data.title;
         
         Object.keys(modulesData).forEach(moduleId => {
-            const statusSelects = document.querySelectorAll(`#list-${moduleId} .mobile-selectors select:nth-child(2)`);
+            const statusSelects = document.querySelectorAll(`#list-${moduleId} .select-status`);
             const typeSelects = document.querySelectorAll(`#list-${moduleId} .select-type`);
             const descInputs = document.querySelectorAll(`#list-${moduleId} .input-desc`);
             
@@ -553,7 +541,7 @@
         const globalProgress = document.getElementById('global-counter').innerText;
         
         if (confirm(`¿Estás seguro de que deseas archivar "${title}" y comenzar un nuevo checklist limpio?`)) {
-            const history = JSON.parse(localStorage.getItem('ghl_history_checklists_v5') || '[]');
+            const history = JSON.parse(localStorage.getItem('ghl_history_checklists_v6') || '[]');
             
             history.unshift({
                 title: title,
@@ -561,21 +549,17 @@
                 date: new Date().toLocaleDateString('es-ES', {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute:'2-digit'})
             });
             
-            localStorage.setItem('ghl_history_checklists_v5', JSON.stringify(history));
+            localStorage.setItem('ghl_history_checklists_v6', JSON.stringify(history));
             
             document.getElementById('main-title').innerText = "Nuevo Lanzamiento";
             
-            const statusSelects = document.querySelectorAll('.mobile-selectors select:nth-child(2)');
-            statusSelects.forEach(sel => {
+            document.querySelectorAll('.select-status').forEach(sel => {
                 sel.value = 'pendiente';
                 updateStatusStyle(sel);
             });
             
-            const typeSelects = document.querySelectorAll('.select-type');
-            typeSelects.forEach(sel => sel.value = 'texto');
-
-            const descInputs = document.querySelectorAll('.input-desc');
-            descInputs.forEach(input => input.value = '');
+            document.querySelectorAll('.select-type').forEach(sel => sel.value = 'texto');
+            document.querySelectorAll('.input-desc').forEach(input => input.value = '');
             
             saveCurrentState();
             calculateMetrics();
@@ -585,7 +569,7 @@
 
     function loadHistory() {
         const container = document.getElementById('history-container');
-        const history = JSON.parse(localStorage.getItem('ghl_history_checklists_v5') || '[]');
+        const history = JSON.parse(localStorage.getItem('ghl_history_checklists_v6') || '[]');
         
         if(history.length === 0) {
             container.innerHTML = '<li class="empty-history">No hay lanzamientos archivados.</li>';
