@@ -33,20 +33,21 @@
         body {
             background-color: var(--bg-app);
             color: var(--text-main);
-            padding: 2rem;
+            padding: 1.5rem;
             display: flex;
             justify-content: center;
         }
 
+        /* Contenedor fluido que aprovecha todo el ancho de la pantalla en PC */
         .app-container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 100%;
             display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 2.5rem;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
         }
 
-        @media (max-width: 1024px) {
+        @media (max-width: 1200px) {
             .app-container {
                 grid-template-columns: 1fr;
             }
@@ -54,21 +55,18 @@
 
         header {
             grid-column: 1 / -1;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             border-bottom: 1px solid var(--border);
             padding-bottom: 1.5rem;
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
+            align-items: center;
             gap: 1.5rem;
             flex-wrap: wrap;
         }
 
         .title-area {
             flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
         }
 
         .editable-title {
@@ -82,8 +80,6 @@
             display: inline-block;
             cursor: pointer;
             transition: all 0.2s ease;
-            width: max-content;
-            max-width: 100%;
         }
 
         .editable-title:hover {
@@ -98,37 +94,18 @@
             cursor: text;
         }
 
-        .description-textarea {
-            width: 100%;
-            max-width: 700px;
-            min-height: 60px;
-            border: 1px solid transparent;
-            background: transparent;
+        .brand p {
             color: var(--text-muted);
             font-size: 0.9rem;
-            padding: 0.5rem;
-            resize: vertical;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-            line-height: 1.4;
-        }
-
-        .description-textarea:hover {
-            border-color: var(--border);
-            background: #fff;
-        }
-
-        .description-textarea:focus {
-            border-color: var(--type-border);
-            background: #fff;
-            color: var(--text-main);
-            outline: none;
+            margin-top: 0.2rem;
+            padding-left: 0.5rem;
         }
 
         .header-actions {
             display: flex;
             align-items: center;
             gap: 1rem;
+            flex-wrap: wrap;
         }
 
         .global-stats {
@@ -136,7 +113,7 @@
             font-weight: 600;
             color: var(--accent);
             background: var(--accent-light);
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1.2rem;
             border-radius: 20px;
             white-space: nowrap;
         }
@@ -145,25 +122,27 @@
             background: var(--accent);
             color: white;
             border: none;
-            padding: 0.5rem 1.2rem;
+            padding: 0.6rem 1.4rem;
             font-size: 0.85rem;
             font-weight: 600;
             border-radius: 6px;
             cursor: pointer;
             transition: opacity 0.2s ease;
+            white-space: nowrap;
         }
 
         .btn-archive:hover {
             opacity: 0.9;
         }
 
+        /* Grid de contenido principal ocupando el máximo espacio */
         .grid-layout {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
             gap: 2rem;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 600px) {
             .grid-layout {
                 grid-template-columns: 1fr;
             }
@@ -207,6 +186,7 @@
             gap: 0.75rem;
         }
 
+        /* Fila del item adaptativa */
         .task-item {
             display: flex;
             align-items: center;
@@ -215,19 +195,41 @@
             border: 1px solid var(--border);
             border-radius: 8px;
             gap: 1rem;
+            flex-wrap: nowrap;
         }
 
         .task-name {
             font-size: 0.9rem;
             font-weight: 500;
             color: var(--text-main);
-            flex: 1;
+            min-width: 180px;
+            flex-shrink: 0;
         }
 
+        /* Contenedor interno de controles */
         .controls-group {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
+            flex: 1;
+            justify-content: flex-end;
+            width: 100%;
+        }
+
+        .input-desc {
+            flex: 1;
+            min-width: 120px;
+            font-size: 0.85rem;
+            padding: 0.4rem 0.6rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-main);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .input-desc:focus {
+            border-color: var(--accent);
         }
 
         .select-custom {
@@ -238,6 +240,7 @@
             border: none;
             cursor: pointer;
             outline: none;
+            height: 32px;
         }
 
         .select-type {
@@ -251,7 +254,34 @@
         .status-proceso { background-color: var(--process-bg); color: var(--process-txt); }
         .status-completado { background-color: var(--success-bg); color: var(--success-txt); }
 
-        /* PANEL HISTORIAL MINIMALISTA */
+        /* RESPONSIVE APP STYLE (MOBILE EXCLUSIVO) */
+        @media (max-width: 768px) {
+            .task-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+                padding: 1rem;
+            }
+            .task-name {
+                min-width: 100%;
+                font-size: 0.95rem;
+            }
+            .controls-group {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.5rem;
+            }
+            .input-desc {
+                width: 100%;
+            }
+            .mobile-selectors {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 0.5rem;
+            }
+        }
+
+        /* PANEL HISTORIAL INTERFAZ */
         .history-sidebar {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -275,7 +305,7 @@
             display: flex;
             flex-direction: column;
             gap: 0.75rem;
-            max-height: 540px;
+            max-height: 600px;
             overflow-y: auto;
         }
 
@@ -293,15 +323,6 @@
         .history-item-title {
             font-weight: 600;
             color: var(--text-main);
-        }
-
-        .history-item-desc {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            white-space: pre-line;
-            border-left: 2px solid var(--border);
-            padding-left: 0.5rem;
-            margin: 0.2rem 0;
         }
 
         .history-item-meta {
@@ -324,8 +345,10 @@
 <div class="app-container">
     <header>
         <div class="title-area">
-            <h1 class="editable-title" id="main-title" contenteditable="true" spellcheck="false">Panel de Control de Lanzamiento</h1>
-            <textarea class="description-textarea" id="main-description" placeholder="Añade aquí notas, objetivos o la descripción detallada de la infraestructura de este lanzamiento..."></textarea>
+            <div class="brand">
+                <h1 class="editable-title" id="main-title" contenteditable="true" spellcheck="false">Panel de Control de Lanzamiento</h1>
+                <p>Auditoría en tiempo real de activos, ventanas de entrega y timeouts en GoHighLevel</p>
+            </div>
         </div>
         <div class="header-actions">
             <button class="btn-archive" onclick="archiveCurrentLaunch()">Archivar Lanzamiento</button>
@@ -334,7 +357,6 @@
     </header>
 
     <main class="grid-layout">
-        <!-- MÓDULO 1 -->
         <section class="card" data-module="1">
             <div class="card-header">
                 <h2 class="card-title">1. Creación de Plantillas</h2>
@@ -343,7 +365,6 @@
             <ul class="task-list" id="list-1"></ul>
         </section>
 
-        <!-- MÓDULO 2 -->
         <section class="card" data-module="2">
             <div class="card-header">
                 <h2 class="card-title">2. Verificación de Datos</h2>
@@ -352,7 +373,6 @@
             <ul class="task-list" id="list-2"></ul>
         </section>
 
-        <!-- MÓDULO 3 -->
         <section class="card" data-module="3">
             <div class="card-header">
                 <h2 class="card-title">3. Verificación de Time Out (GHL)</h2>
@@ -361,7 +381,6 @@
             <ul class="task-list" id="list-3"></ul>
         </section>
 
-        <!-- MÓDULO 4 -->
         <section class="card" data-module="4">
             <div class="card-header">
                 <h2 class="card-title">4. Verificación de Horarios (GHL)</h2>
@@ -371,7 +390,6 @@
         </section>
     </main>
 
-    <!-- SIDEBAR DE ARCHIVADOS -->
     <aside class="history-sidebar">
         <h3>Historial Estructurado</h3>
         <ul class="history-list" id="history-container">
@@ -405,19 +423,24 @@
             modulesData[moduleId].forEach((taskName, index) => {
                 const li = document.createElement('li');
                 li.className = 'task-item';
+                
+                // Estructura adaptativa con wrapper mobile-selectors para no romper el grid
                 li.innerHTML = `
                     <span class="task-name">${taskName}</span>
                     <div class="controls-group">
-                        <select class="select-custom select-type" data-index="${index}" onchange="saveCurrentState();">
-                            <option value="texto">📝 Texto</option>
-                            <option value="video">🎬 Video</option>
-                            <option value="imagen">🖼️ Imagen</option>
-                        </select>
-                        <select class="select-custom status-pendiente" data-index="${index}" onchange="updateStatusStyle(this); calculateMetrics(); saveCurrentState();">
-                            <option value="pendiente">📑 Pendiente</option>
-                            <option value="proceso">⏳ En Proceso</option>
-                            <option value="completado">✅ Completado</option>
-                        </select>
+                        <input type="text" class="input-desc" placeholder="Añadir descripción..." data-index="${index}" oninput="saveCurrentState();">
+                        <div class="mobile-selectors">
+                            <select class="select-custom select-type" data-index="${index}" onchange="saveCurrentState();">
+                                <option value="texto">📝 Texto</option>
+                                <option value="video">🎬 Video</option>
+                                <option value="imagen">🖼️ Imagen</option>
+                            </select>
+                            <select class="select-custom status-pendiente" data-index="${index}" onchange="updateStatusStyle(this); calculateMetrics(); saveCurrentState();">
+                                <option value="pendiente">📑 Pendiente</option>
+                                <option value="proceso">⏳ En Proceso</option>
+                                <option value="completado">✅ Completado</option>
+                            </select>
+                        </div>
                     </div>
                 `;
                 listContainer.appendChild(li);
@@ -427,16 +450,12 @@
         loadState();
         loadHistory();
         
-        // Listeners automáticos para guardar texto sin botones molestos
         const titleEl = document.getElementById('main-title');
         titleEl.addEventListener('blur', () => {
             if(!titleEl.innerText.trim()) titleEl.innerText = "Panel de Control de Lanzamiento";
             saveCurrentState();
         });
         titleEl.addEventListener('keydown', (e) => { if(e.key === 'Enter') { e.preventDefault(); titleEl.blur(); } });
-
-        const descEl = document.getElementById('main-description');
-        descEl.addEventListener('input', saveCurrentState);
     }
 
     function updateStatusStyle(selectElement) {
@@ -476,34 +495,36 @@
     function saveCurrentState() {
         const currentState = {
             title: document.getElementById('main-title').innerText,
-            description: document.getElementById('main-description').value,
             modules: {},
-            types: {}
+            types: {},
+            descriptions: {}
         };
         Object.keys(modulesData).forEach(moduleId => {
             currentState.modules[moduleId] = [];
             currentState.types[moduleId] = [];
+            currentState.descriptions[moduleId] = [];
             
-            const statusSelects = document.querySelectorAll(`#list-${moduleId} .controls-group select:nth-child(2)`);
+            const statusSelects = document.querySelectorAll(`#list-${moduleId} .mobile-selectors select:nth-child(2)`);
             const typeSelects = document.querySelectorAll(`#list-${moduleId} .select-type`);
+            const descInputs = document.querySelectorAll(`#list-${moduleId} .input-desc`);
             
             statusSelects.forEach(sel => currentState.modules[moduleId].push(sel.value));
             typeSelects.forEach(sel => currentState.types[moduleId].push(sel.value));
+            descInputs.forEach(input => currentState.descriptions[moduleId].push(input.value));
         });
-        localStorage.setItem('ghl_current_checklist_v4', JSON.stringify(currentState));
+        localStorage.setItem('ghl_current_checklist_v5', JSON.stringify(currentState));
     }
 
     function loadState() {
-        const saved = localStorage.getItem('ghl_current_checklist_v4');
+        const saved = localStorage.getItem('ghl_current_checklist_v5');
         if (!saved) { calculateMetrics(); return; }
         const data = JSON.parse(saved);
-        
         if(data.title) document.getElementById('main-title').innerText = data.title;
-        if(data.description) document.getElementById('main-description').value = data.description;
         
         Object.keys(modulesData).forEach(moduleId => {
-            const statusSelects = document.querySelectorAll(`#list-${moduleId} .controls-group select:nth-child(2)`);
+            const statusSelects = document.querySelectorAll(`#list-${moduleId} .mobile-selectors select:nth-child(2)`);
             const typeSelects = document.querySelectorAll(`#list-${moduleId} .select-type`);
+            const descInputs = document.querySelectorAll(`#list-${moduleId} .input-desc`);
             
             statusSelects.forEach((sel, idx) => {
                 if(data.modules && data.modules[moduleId] && data.modules[moduleId][idx]) {
@@ -517,32 +538,34 @@
                     sel.value = data.types[moduleId][idx];
                 }
             });
+
+            descInputs.forEach((input, idx) => {
+                if(data.descriptions && data.descriptions[moduleId] && data.descriptions[moduleId][idx]) {
+                    input.value = data.descriptions[moduleId][idx];
+                }
+            });
         });
         calculateMetrics();
     }
 
     function archiveCurrentLaunch() {
         const title = document.getElementById('main-title').innerText.trim();
-        const description = document.getElementById('main-description').value.trim();
         const globalProgress = document.getElementById('global-counter').innerText;
         
         if (confirm(`¿Estás seguro de que deseas archivar "${title}" y comenzar un nuevo checklist limpio?`)) {
-            const history = JSON.parse(localStorage.getItem('ghl_history_checklists_v4') || '[]');
+            const history = JSON.parse(localStorage.getItem('ghl_history_checklists_v5') || '[]');
             
             history.unshift({
                 title: title,
-                description: description || "Sin descripción adicional.",
                 progress: globalProgress,
                 date: new Date().toLocaleDateString('es-ES', {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute:'2-digit'})
             });
             
-            localStorage.setItem('ghl_history_checklists_v4', JSON.stringify(history));
+            localStorage.setItem('ghl_history_checklists_v5', JSON.stringify(history));
             
-            // Reestablecer campos para el nuevo inicio
             document.getElementById('main-title').innerText = "Nuevo Lanzamiento";
-            document.getElementById('main-description').value = "";
             
-            const statusSelects = document.querySelectorAll('.controls-group select:nth-child(2)');
+            const statusSelects = document.querySelectorAll('.mobile-selectors select:nth-child(2)');
             statusSelects.forEach(sel => {
                 sel.value = 'pendiente';
                 updateStatusStyle(sel);
@@ -550,6 +573,9 @@
             
             const typeSelects = document.querySelectorAll('.select-type');
             typeSelects.forEach(sel => sel.value = 'texto');
+
+            const descInputs = document.querySelectorAll('.input-desc');
+            descInputs.forEach(input => input.value = '');
             
             saveCurrentState();
             calculateMetrics();
@@ -559,7 +585,7 @@
 
     function loadHistory() {
         const container = document.getElementById('history-container');
-        const history = JSON.parse(localStorage.getItem('ghl_history_checklists_v4') || '[]');
+        const history = JSON.parse(localStorage.getItem('ghl_history_checklists_v5') || '[]');
         
         if(history.length === 0) {
             container.innerHTML = '<li class="empty-history">No hay lanzamientos archivados.</li>';
@@ -569,7 +595,6 @@
         container.innerHTML = history.map(item => `
             <li class="history-item">
                 <span class="history-item-title">${item.title}</span>
-                <p class="history-item-desc">${item.description}</p>
                 <div class="history-item-meta">
                     <span>${item.progress}</span>
                     <span>${item.date}</span>
